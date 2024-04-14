@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empty Webpage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #topBar {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    button {
+      padding: 8px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 5px; /* Added margin to create space between buttons */
+    }
+    
+    #initialForm, #registerForm, #logInForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    #buttonContainer {
+      display: flex;
+      flex-direction: row; /* Align buttons horizontally */
+      justify-content: center;
+      margin-top: 10px; /* Add margin to separate text and buttons */
+    }
+
+    #registerForm {
+      display: none; /* Show the registration form when needed */
+    }
+    
+    #logInForm {
+      display: none; /* Show the registration form when needed */
+    }
+    
+  </style>
+</head>
+<body>
+
+<div id="topBar">
+  <h2>Game</h2>
+</div>
+
+<div id="initialForm">
+  <form id="intFrm">
+    <h2>Do you have an account? If yes, please sign in.</h2>
+  </form>
+  <div id="buttonContainer">
+      <button type="button" onclick="showRegisterForm()">Sign Up</button>
+      <button type="button" onclick="showLogInForm()">Sign In</button>
+    </div>
+</div>
+
+<div id="registerForm">
+  <form id="regFrm">
+    <h2>Register</h2> 
+  </form>
+  <button type="button" onclick="hideRegisterForm()">Register</button>
+</div>
+
+<div id="logInForm">
+  <form id="logFrm">
+    <h2>Log In</h2>  
+  </form>
+  <button type="button" onclick="hideLogInForm()">Log In</button>
+</div>
+
+<script>
+  function showRegisterForm() {
+    const initialForm = document.getElementById('initialForm');
+    const registerForm = document.getElementById('registerForm');
+    initialForm.style.display = 'none';
+    registerForm.style.display = 'flex';
+  }
+
+  function hideRegisterForm() {
+    const initialForm = document.getElementById('initialForm');
+    const registerForm = document.getElementById('registerForm');
+    initialForm.style.display = 'none';
+    registerForm.style.display = 'none';
+  }
+  
+  function showLogInForm() {
+    const initialForm = document.getElementById('initialForm');
+    const logInForm = document.getElementById('logInForm');
+    initialForm.style.display = 'none';
+    logInForm.style.display = 'flex';
+  }
+  
+  function hideLogInForm() {
+    const initialForm = document.getElementById('initialForm');
+    const logInForm = document.getElementById('logInForm');
+    initialForm.style.display = 'none';
+    logInForm.style.display = 'none';
+  }
+  
+</script>
+
+</body>
+</html>

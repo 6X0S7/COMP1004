@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empty Webpage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #topBar {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    button {
+      padding: 8px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 5px; /* Added margin to create space between buttons */
+    }
+    
+    #initialForm, #registerForm, #logInForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    #buttonContainer {
+      display: flex;
+      flex-direction: row; /* Align buttons horizontally */
+      justify-content: center;
+      margin-top: 10px; /* Add margin to separate text and buttons */
+    }
+
+    #registerForm, #logInForm {
+      display: none; /* Initially hide the registration and login forms */
+    }
+
+    form {
+      display: flex; /* Initially hide the registration form */
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background-color: #333;
+      color: white;
+    }
+
+    input {
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+
+
+<div id="topBar">
+  <h2>Game</h2>
+</div>
+
+<div id="initialForm">
+  <form id="intFrm">
+    <h2>Do you have an account? If yes, please sign in.</h2>
+  <div id="buttonContainer">
+      <button type="button" onclick="showRegisterForm()">Sign Up</button>
+      <button type="button" onclick="showLogInForm()">Sign In</button>
+    </div></form>
+  
+</div>
+
+<div id="registerForm">
+  <form id="regFrm">
+    <h2>Register</h2>
+    <input type="text" id="registerUsername" placeholder="Username" required>
+    <input type="password" id="registerPassword" placeholder="Password" required>
+    <input type="password" id="matchPassword" placeholder="Password" required>
+  </form>
+  <button type="button" onclick="register()">Register</button>
+</div>
+
+<div id="logInForm">
+  <form id="logFrm">
+    <h2>Log In</h2>
+    <input type="text" id="logUsername" placeholder="Username" required>
+    <input type="password" id="logPassword" placeholder="Password" required>
+  </form>
+  <button type="button" onclick="login()">Log In</button>
+</div>
+
+<!-- ... Your HTML and styles ... -->
+
+<script>
+  function showRegisterForm() {
+    const initialForm = document.getElementById('initialForm');
+    const registerForm = document.getElementById('registerForm');
+    initialForm.style.display = 'none';
+    registerForm.style.display = 'flex';
+  }
+
+  function showLogInForm() {
+    const initialForm = document.getElementById('initialForm');
+    const logInForm = document.getElementById('logInForm');
+    initialForm.style.display = 'none';
+    logInForm.style.display = 'flex';
+  }
+
+  function register() {
+    
+    // Get input values from the register form
+    const usernameInput = document.getElementById('registerUsername');
+    const passwordInput = document.getElementById('registerPassword');
+    const matchPasswordInput = document.getElementById('matchPassword');
+
+    // Verification logic
+    if (usernameInput.value.trim() === '' || passwordInput.value.trim() === '' ||matchPasswordInput.value.trim() === '') {
+    alert('Please fill in all fields.');
+      return;
+    }
+
+    if (passwordInput.value !== matchPasswordInput.value) {
+    alert('Passwords do not match.');
+      return;
+    }
+
+    // Save data to local storage
+    localStorage.setItem('username', usernameInput.value);
+    localStorage.setItem('password', passwordInput.value);
+
+    // Clear the input fields
+    usernameInput.value = '';
+    passwordInput.value = '';
+    matchPasswordInput.value = '';
+    
+	// If all verification checks pass, hide the forms
+    initialForm.style.display = 'none';
+    registerForm.style.display = 'none';
+    logInForm.style.display = 'none';
+  }
+
+  function login() {
+    const logUsernameInput = document.getElementById('logUsername');
+    const logPasswordInput = document.getElementById('logPassword');
+
+    // Retrieve data from local storage
+    const storedUsername = localStorage.getItem('username');
+    const storedPassword = localStorage.getItem('password');
+
+    // Check if the entered username exists in local storage
+    if (logUsernameInput.value !== storedUsername || logPasswordInput.value !== storedPassword) {
+    alert('Invalid username or password.');
+      return;
+    }
+      // If username and password match, clear the fields and hide the login form
+      
+    else {
+      logUsernameInput.value = '';
+      logPasswordInput.value = '';
+      
+      const initialForm = document.getElementById('initialForm');
+      const logInForm = document.getElementById('logInForm');
+      
+      // If all verification checks pass, hide the forms
+
+      registerForm.style.display = 'none';
+      logInForm.style.display = 'none';
+      
+    }
+    
+    
+  }
+  
+</script>
+
+<!-- ... Your HTML continues ... -->
+
+
+</body>
+</html>
