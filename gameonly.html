@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Platformer Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    #game-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    #player {
+      width: 50px;
+      height: 50px;
+      background-color: blue;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: bottom 0.3s;
+    }
+    .platform {
+      width: 150px;
+      height: 20px;
+      background-color: green;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="player"></div>
+    <div class="platform" style="bottom: 100px; left: 20%;"></div>
+    <div class="platform" style="bottom: 200px; left: 60%;"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const player = document.getElementById('player');
+      const platforms = document.querySelectorAll('.platform');
+
+      let isJumping = false;
+
+      function jump() {
+        if (!isJumping) {
+          isJumping = true;
+          player.style.bottom = '200px';
+          setTimeout(() => {
+            player.style.bottom = '0';
+            setTimeout(() => {
+              isJumping = false;
+            }, 300);
+          }, 500);
+        }
+      }
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowUp' || event.key === 'Space') {
+          jump();
+        }
+      });
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') {
+          const playerLeft = parseInt(getComputedStyle(player).left);
+          player.style.left = (playerLeft - 10) + 'px';
+        }
+        if (event.key === 'ArrowRight') {
+          const playerLeft = parseInt(getComputedStyle(player).left);
+          player.style.left = (playerLeft + 10) + 'px';
+        }
+      });
+
+      function checkCollisions() {
+        const playerRect = player.getBoundingClientRect();
+        platforms.forEach(platform => {
+          const platformRect = platform.getBoundingClientRect();
+          if (
+            playerRect.bottom >= platformRect.top &&
+            playerRect.top <= platformRect.bottom &&
+            playerRect.right >= platformRect.left &&
+            playerRect.left <= platformRect.right
+          ) {
+            player.style.bottom = (platformRect.bottom - playerRect.height) + 'px';
+          }
+        });
+      }
+
+      setInterval(checkCollisions, 10);
+    });
+  </script>
+</body>
+</html>
