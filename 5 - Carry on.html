@@ -1,180 +1,617 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empty Webpage</title>
-    <link rel="stylesheet" href="styles.css">
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Platformer</title>
+<style>
+    /* CSS styles */
+    @import url(https://fonts.googleapis.com/css?family=Pacifico);
+
+    body {
+        background: #F6F7BD;
+    }
+
+    h1 {
+        color: #BF4D28;
+        font-size: 3em;
+        line-height: 1em;
+        margin-bottom: 15px;
+        font-family: sans-serif;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    p {
+        line-height: 1em;
+    }
+
+    div {
+        color: #BF4D28;
+        font-family: sans-serif;
+        line-height: 10px;
+        margin: 2%;
+    }
+
+    #canvas {
+        margin-left: 2%;
+        background: linear-gradient(#80BCA3, #B6D8C0);
+    }
+
+    #score {
+        color: #BF4D28;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    /* Login container styles */
+    #login-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: block;
+    }
+
+    /* Game container styles */
+    #game-container {
+        display: none; /* Initially hide the game container */
+    }
+
+    /* Form container styles */
+    .form-container {
+        display: none; /* Initially hide form containers */
+        margin-top: 20px;
+    }
+
+    /* Button styles */
+    .btn {
+        background-color: #BF4D28;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 
-<div id="topBar">
-  <h2>Game</h2>
+<!-- Login Container -->
+<div id="login-container">
+    <h2>Welcome to the Game</h2>
+    <button class="btn" id="signin-button">Sign In</button>
+    <button class="btn" id="signup-button">Sign Up</button>
 </div>
 
-<div id="initialForm">
-  <form id="intFrm">
-    <h2>Do you have an account? If yes, please sign in.</h2>
-    <div id="buttonContainer">
-      <button type="button" onclick="showRegisterForm()">Sign Up</button>
-      <button type="button" onclick="showLogInForm()">Sign In</button>
-    </div>
-  </form>
+<!-- Sign In Form -->
+<div class="form-container" id="signin-form">
+    <h2>Sign In</h2>
+    <form>
+        <input type="text" placeholder="Username" required><br>
+        <input type="password" placeholder="Password" required><br>
+        <button class="btn">Sign In</button>
+    </form>
 </div>
 
-<div id="registerForm">
-  <form id="regFrm">
-    <h2>Register</h2>
-    <input type="text" id="registerUsername" placeholder="Username" required>
-    <input type="password" id="registerPassword" placeholder="Password" required>
-    <input type="password" id="matchPassword" placeholder="Password" required>
-  </form>
-  <button type="button" onclick="register()">Register</button>
+<!-- Sign Up Form -->
+<div class="form-container" id="signup-form">
+    <h2>Sign Up</h2>
+    <form>
+        <input type="text" placeholder="Username" required><br>
+        <input type="email" placeholder="Email" required><br>
+        <input type="password" placeholder="Password" required><br>
+        <button class="btn">Sign Up</button>
+    </form>
 </div>
 
-<div id="logInForm">
-  <form id="logFrm">
-    <h2>Log In</h2>
-    <input type="text" id="logUsername" placeholder="Username" required>
-    <input type="password" id="logPassword" placeholder="Password" required>
-  </form>
-  <button type="button" onclick="login()">Log In</button>
+<!-- Game Container -->
+<div id="game-container">
+    <!-- Game elements go here -->
+    <h1>Simple Platformer</h1>
+    <p>Use the arrow keys and your platforming skills to reach the blue diamond</p>
+    <p>Score: <span id="score">0</span></p>
+    <canvas id="canvas"></canvas>
 </div>
 
-<div id="gameWindow" tabindex="0" onkeydown="move(event)">
-  <div id="gameArea">
-    <div id="square"></div>
-    <div id="platform"></div>
-    <div id="platform1"></div>
-  </div>
-</div>
-
-  
 <script>
-  function showRegisterForm() {
-    const initialForm = document.getElementById('initialForm');
-    const registerForm = document.getElementById('registerForm');
-    initialForm.style.display = 'none';
-    registerForm.style.display = 'flex';
+    // JavaScript functionality to handle login and game display
+    document.addEventListener("DOMContentLoaded", function() {
+        var loginContainer = document.getElementById("login-container");
+        var gameContainer = document.getElementById("game-container");
+        var signInButton = document.getElementById("signin-button");
+
+        // Add event listener to sign in button
+        signInButton.addEventListener("click", function() {
+            // Hide login container
+            loginContainer.style.display = "none";
+            // Display game container
+            gameContainer.style.display = "block";
+            // Call function to start the game
+            startGame();
+        });
+
+        // Function to start the game
+        function startGame() {
+            // Your game initialization code goes here
+            // For now, I'll just print a message to the console
+            console.log("Game started!");
+        }
+    });
+</script>
+
+<script>
+    // Game JavaScript code
+    (function () {
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+        window.requestAnimationFrame = requestAnimationFrame;
+    })();
+
+    var canvas = document.getElementById("canvas"),
+        ctx = canvas.getContext("2d"),
+        width = 1000,
+        height = 400,
+        player = {
+            x: width / 2,
+            y: 200,
+            width: 25,
+            height: 25,
+            speed: 3,
+            velX: 0,
+            velY: 0,
+            jumping: false,
+            grounded: false,
+            color: '#E6AC27'
+        },
+        keys = [],
+        friction = 0.8,
+        gravity = 0.4,
+        boxes = [],
+        powerup = [];
+
+  powerup.push({
+
+          x: 810,
+
+          y: 250,
+
+          width: 20,
+
+          height: 20,
+
+          color: '#BF4D28',
+
+          effect: 'shrink'
+
+      });
+
+  powerup.push({
+
+          x: 400,
+
+          y: 150,
+
+          width: 20,
+
+          height: 20,
+
+          color: '#BF4D28',
+
+          effect: 'gravity'
+
+      });
+
+  powerup.push({
+
+          x: -15,
+
+          y: 88,
+
+          width: 20,
+
+          height: 20,
+
+          color: '#222',
+
+          effect: 'tele',
+
+          rotate: 20,
+
+          px: 20,//where they get teleported
+
+          py: 370,
+
+          stay: true
+
+      });
+
+  powerup.push({
+
+          x: 60,
+
+          y: 365,
+
+          width: 20,
+
+          height: 20,
+
+          color: '#2A5D77',
+
+          effect: 'win',
+
+          stay: true
+
+      });
+
+  // dimensions
+
+  boxes.push({//box on left
+
+      x: 0,
+
+      y: height/4+10,
+
+      width: 10,
+
+      height: height,
+
+      color: 'green'
+
+  });
+
+  boxes.push({//box on left
+
+      x: 0,
+
+      y: 0,
+
+      width: 10,
+
+      height: height/4-15,
+
+      color: 'green'
+
+  });
+
+  boxes.push({//box for the ground
+
+      x: 0,
+
+      y: height - 10,
+
+      width: width,
+
+      height: 50,
+
+      color: 'orange'
+
+  });
+
+  boxes.push({//box on right
+
+      x: width - 10,
+
+      y: 0,
+
+      width: 50,
+
+      height: height,
+
+      color: 'yellow'
+
+  });
+
+  boxes.push({
+
+      x: 290,
+
+      y: 200,
+
+      width: 260,
+
+      height: 10,
+
+      color: 'blue'
+
+  });
+
+  boxes.push({
+
+      x: 590,
+
+      y: 200,
+
+      width: 80,
+
+      height: 10,
+
+      color: 'blue'
+
+  });
+
+  boxes.push({
+
+      x: 120,
+
+      y: 250,
+
+      width: 150,
+
+      height: 10,
+
+      color: 'red'
+
+  });
+
+  boxes.push({
+
+      x: 220,
+
+      y: 300,
+
+      width: 80,
+
+      height: 10,
+
+      color: 'black'
+
+  });
+
+  boxes.push({
+
+      x: 340,
+
+      y: 350,
+
+      width: 90,
+
+      height: 10,
+
+      color: '#655643'
+
+  });
+
+  boxes.push({
+
+      x: 740,
+
+      y: 300,
+
+      width: 160,
+
+      height: 10,
+
+      color: '#655643'
+
+  });
+
+  boxes.push({
+
+      x: 0,
+
+      y: 350,
+
+      width: 90,
+
+      height: 10,
+
+      color: '#655643'
+
+  });
+
+  boxes.push({
+
+      x: 90,
+
+      y: 350,
+
+      width: 10,
+
+      height: 50,
+
+      color: '#655643'
+
+  });
+
+
+    // Game initialization code goes here
+
+    canvas.width = width;
+    canvas.height = height;
+
+    function update() {
+      // check keys
+      if (keys[38] || keys[32] || keys[87]) {
+          // up arrow or space
+          if (!player.jumping && player.grounded) {
+              player.jumping = true;
+              player.grounded = false;
+              player.velY = -player.speed * 2.5;//how high to jump
+          }
+      }
+      if (keys[39] || keys[68]) {
+          // right arrow
+          if (player.velX < player.speed) {
+              player.velX++;
+          }
+      }
+      if (keys[37] || keys[65]) {
+          // left arrow
+          if (player.velX > -player.speed) {
+              player.velX--;
+          }
+      }
+
+
+
+      player.velX *= friction;
+      player.velY += gravity;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.beginPath();
+
+      player.grounded = false;
+      for (var i = 0; i < boxes.length; i++) {//print boxes
+          ctx.fillStyle = boxes[i].color;
+          ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+
+          var dir = colCheck(player, boxes[i]);
+
+          if (dir === "l" || dir === "r") {
+              player.velX = 0;
+              player.jumping = false;
+          } else if (dir === "b") {
+              player.grounded = true;
+              player.jumping = false;
+          } else if (dir === "t") {
+              player.velY *= -1;
+          }
+
+      }
+
+      if(player.grounded){
+           player.velY = 0;
+      }
+
+      player.x += player.velX;
+      player.y += player.velY;
+
+      ctx.fill();//Draw charater stuff
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      //draw powerup stuff 
+      for(var j = 0; j < powerup.length; j++){
+        ctx.save();
+        var cx = powerup[j].x + 0.5 * powerup[j].width,   // x of shape center
+        cy = powerup[j].y + 0.5 * powerup[j].height; //y of shape center
+        ctx.translate(cx, cy);  //translate to center of shape
+        ctx.rotate( (Math.PI / 180) * 45);//rotate 25 degrees.
+        if(powerup[j].effect  === 'tele'){
+          ctx.rotate( (Math.PI / 180) * powerup[j].rotate);//rotate 25 degrees.
+          powerup[j].rotate = (Math.PI / 180) * powerup[j].rotate;
+        }
+        ctx.translate(-cx, -cy);            //translate center back to 0,0
+        ctx.fillStyle = powerup[j].color;
+        ctx.fillRect(powerup[j].x, powerup[j].y, powerup[j].width, powerup[j].height);
+        ctx.restore();
+
+        //powerup collision
+        if(colCheck(player, powerup[j])!==null){//touched power up!
+          if(powerup[j].effect==='gravity'){
+            gravity= 0.4;//decrease gravity
+            player.speed = 4;
+            player.color = 'white';
+          }
+          else if (powerup[j].effect==='shrink'){
+            player.width= 10;
+            player.height= 10;
+            player.speed = 5;
+          }
+          else if (powerup[j].effect==='tele'){
+            player.x=powerup[j].px;
+            player.y=powerup[j].py;
+          }
+          else if (powerup[j].effect==='win'){
+            var r = confirm("You win! Play again?");
+            if (r == false) {
+                 player.x=200;
+                 player.y=200;
+            } else {
+                 window.location.href = window.location.href;
+            }
+          }
+          if(powerup[j].stay!==true)
+          powerup[j].width=0;//make power up go away
+          
+            score += 10; // Increment the score
+        updateScore();
+        }
+      }
+      //powerup stuff
+
+      requestAnimationFrame(update);
   }
 
-  function showLogInForm() {
-    const initialForm = document.getElementById('initialForm');
-    const logInForm = document.getElementById('logInForm');
-    initialForm.style.display = 'none';
-    logInForm.style.display = 'flex';
+  function colCheck(shapeA, shapeB) {
+      // get the vectors to check against
+      var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+          vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+          // add the half widths and half heights of the objects
+          hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+          hHeights = (shapeA.height / 2) + (shapeB.height / 2),
+          colDir = null;
+
+      // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+      if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
+          // figures out on which side we are colliding (top, bottom, left, or right)
+          var oX = hWidths - Math.abs(vX),
+              oY = hHeights - Math.abs(vY);
+          if (oX >= oY) {
+              if (vY > 0) {
+                  colDir = "t";
+                  shapeA.y += oY;
+              } else {
+                  colDir = "b";
+                  shapeA.y -= oY;
+              }
+          } else {
+              if (vX > 0) {
+                  colDir = "l";
+                  shapeA.x += oX;
+              } else {
+                  colDir = "r";
+                  shapeA.x -= oX;
+              }
+          }
+      }
+      return colDir;
   }
 
-  function register() {
-    // Get input values from the register form
-    const usernameInput = document.getElementById('registerUsername');
-    const passwordInput = document.getElementById('registerPassword');
-    const matchPasswordInput = document.getElementById('matchPassword');
+    var score = 0; // Initialize score
 
-    // Verification logic
-    if (usernameInput.value.trim() === '' || passwordInput.value.trim() === '' || matchPasswordInput.value.trim() === '') {
-      alert('Please fill in all fields.');
-      return;
+    // Function to update the score
+    function updateScore() {
+        var scoreElement = document.getElementById("score");
+        scoreElement.textContent = "Score: " + score;
     }
 
-    if (passwordInput.value !== matchPasswordInput.value) {
-      alert('Passwords do not match.');
-      return;
+    function collectPowerup(index) {
+    var effect = powerup[index].effect;
+    if (effect === 'gravity') {
+        gravity = 0.4;
+        player.speed = 4;
+        player.color = 'white';
+    } else if (effect === 'shrink') {
+        player.width = 10;
+        player.height = 10;
+        player.speed = 5;
+    } else if (effect === 'win') {
+        var r = confirm("You win! Play again?");
+        if (r == false) {
+            player.x = 200;
+            player.y = 200;
+        } else {
+            window.location.href = window.location.href;
+        }
     }
-
-    // Save data to local storage
-    localStorage.setItem('username', usernameInput.value);
-    localStorage.setItem('password', passwordInput.value);
-
-    // Clear the input fields
-    usernameInput.value = '';
-    passwordInput.value = '';
-    matchPasswordInput.value = '';
-
-    // If all verification checks pass, hide the forms
-    initialForm.style.display = 'none';
-    registerForm.style.display = 'none';
-    logInForm.style.display = 'none';
-
-    // Show the game window after successful registration
-    document.getElementById('gameWindow').style.display = 'flex';
-  }
-
-  function login() {
-    const logUsernameInput = document.getElementById('logUsername');
-    const logPasswordInput = document.getElementById('logPassword');
-
-    // Retrieve data from local storage
-    const storedUsername = localStorage.getItem('username');
-    const storedPassword = localStorage.getItem('password');
-
-    // Check if the entered username exists in local storage
-    if (logUsernameInput.value !== storedUsername || logPasswordInput.value !== storedPassword) {
-      alert('Invalid username or password.');
-      return;
+    if (powerup[index].stay !== true) {
+        powerup.splice(index, 1); // Remove the collected powerup from the array
     }
+}
 
-    // If username and password match, clear the fields and hide the login form
-    logUsernameInput.value = '';
-    logPasswordInput.value = '';
+    document.body.addEventListener("keydown", function (e) {
+        keys[e.keyCode] = true;
+    });
 
-    const initialForm = document.getElementById('initialForm');
-    const logInForm = document.getElementById('logInForm');
+    document.body.addEventListener("keyup", function (e) {
+        keys[e.keyCode] = false;
+    });
 
-    // If all verification checks pass, hide the forms
-    registerForm.style.display = 'none';
-    logInForm.style.display = 'none';
-
-    // Show the game window after successful login
-    document.getElementById('gameWindow').style.display = 'flex';
-  }
-  
-  const square = document.getElementById('square');
-  const platform = document.getElementById('platform');
-  let jumping = false;
-
-  function move(event) {
-    if (event.key === ' ' && !jumping) {
-      jump();
-    } else if (event.key === 'ArrowRight') {
-      moveRight();
-    } else if (event.key === 'ArrowLeft') {
-      moveLeft();
-    }
-  }
-
-  function jump() {
-    jumping = true;
-    square.style.bottom = '80px';
-    setTimeout(() => {
-      square.style.bottom = '30px';
-      jumping = false;
-      checkCollision();
-    }, 500);
-  }
-
-  function moveRight() {
-    const currentLeft = parseInt(getComputedStyle(square).left);
-    square.style.left = currentLeft + 20 + 'px';
-    checkCollision();
-  }
-
-  function moveLeft() {
-    const currentLeft = parseInt(getComputedStyle(square).left);
-    square.style.left = currentLeft - 20 + 'px';
-    checkCollision();
-  }
-
-  function checkCollision() {
-    const squareRect = square.getBoundingClientRect();
-    const platformRect = platform.getBoundingClientRect();
-
-    if (squareRect.bottom >= platformRect.top) {
-      square.style.bottom = platformRect.height + 'px';
-    }
-  }
-
+    // Call updateScore() when the page loads to initialize the score display
+    window.addEventListener("load", function () {
+        update();
+    });
 </script>
 
 </body>
