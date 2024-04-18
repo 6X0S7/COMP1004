@@ -1,5 +1,37 @@
 document.addEventListener("DOMContentLoaded", function() {
     
+    var loginContainer = document.getElementById("login-container");
+    var signinButton = document.getElementById("signin-button");
+    var signupButton = document.getElementById("signup-button");
+    var initialScreen = document.getElementById("initial-screen");
+    var playGameButton = document.getElementById("play-game-btn");
+    var gameContainer = document.getElementById("game-container");
+    var scoreboardButton = document.getElementById("scoreboard-button");
+    
+    // Event listener for "Sign In" button
+    signinButton.addEventListener("click", function() {
+        // Your sign-in logic here
+        // For example, you can show the initial screen after successful sign-in
+        loginContainer.style.display = "none"; // Hide the login container
+        initialScreen.style.display = "block"; // Show the initial screen
+    });
+
+    // Event listener for "Sign Up" button
+    signupButton.addEventListener("click", function() {
+        // Your sign-up logic here
+        // For example, you can show the initial screen after successful sign-up
+        loginContainer.style.display = "none"; // Hide the login container
+        initialScreen.style.display = "block"; // Show the initial screen
+    });
+
+    // Event listener for "Play Game" button
+    playGameButton.addEventListener("click", function() {
+        // Your logic to start the game here
+        // For example, you can show the game container
+        initialScreen.style.display = "none"; // Hide the initial screen
+        gameContainer.style.display = "block"; // Show the game container
+    });
+    
     var scoreboardButton = document.getElementById("scoreboard-button");
     var scoreboardContainer = document.getElementById("scoreboard-container");
     var closeScoreboardButton = document.getElementById("close-scoreboard-button");

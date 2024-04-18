@@ -38,8 +38,16 @@
     </form>
 </div>
 
+<!-- Initial Screen -->
+<div id="initial-screen" style="display: none;">
+    <h2>Welcome!</h2>
+    <button class="big-btn" id="how-to-develop-btn">How to Develop Software</button>
+    <button class="big-btn" id="github-repo-btn">GitHub Repo for the Game</button>
+    <button class="big-btn" id="play-game-btn">Play Game</button>
+</div>
+
 <!-- Game Container -->
-<div id="game-container">
+<div id="game-container" style="display: none;">
     <!-- Game elements go here -->
     <h1>Simple Platformer</h1>
     <p>Use the arrow keys and your platforming skills to reach the blue diamond</p>
@@ -69,5 +77,23 @@
 <script src="functions.js"></script>
 
 <script src="game.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var howToDevelopButton = document.getElementById("how-to-develop-btn");
+        var embeddedContentContainer = document.getElementById("embedded-content-container");
+
+        // Event listener for "How to Develop Software" button
+        howToDevelopButton.addEventListener("click", function() {
+            // Toggle the visibility of the embedded content container
+            if (embeddedContentContainer.style.display === "none") {
+                embeddedContentContainer.style.display = "block";
+            } else {
+                embeddedContentContainer.style.display = "none";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
