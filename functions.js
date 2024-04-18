@@ -161,51 +161,64 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Event listener for successful sign up
-    signUpForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
+signUpForm.addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
 
-        var username = document.getElementById("signup-username").value;
-        var password = document.getElementById("signup-password").value;
-        var confirmPassword = document.getElementById("signup-confirm-password").value;
+    var username = document.getElementById("signup-username").value;
+    var password = document.getElementById("signup-password").value;
+    var confirmPassword = document.getElementById("signup-confirm-password").value;
 
-        // Check if passwords match
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
-        // Check if the username already exists in the database
-        var existingUser = databaseData.find(function(user) {
-            return user.username === username;
-        });
+    // Check if the password meets the requirements
+    if (!isValidPassword(password)) {
+        alert("Password must be at least 12 characters long and contain at least 2 special characters.");
+        return;
+    }
 
-        if (existingUser) {
-            alert("Username already exists. Please choose a different username.");
-            return;
-        }
-
-        // Add the new user to the database data with initial score of 0
-        var newUser = {
-            username: username,
-            password: password,
-            score: 0
-        };
-        databaseData.push(newUser);
-
-        // Update the JSON file with the new data
-        updateDatabaseFile(databaseData);
-
-        // Here you would typically handle the sign-up process and check if it's successful
-        // For demonstration purposes, let's assume the sign-up is successful
-        console.log("Registered and signed in as:", username);
-
-        // Hide sign-up form
-        signUpForm.style.display = "none";
-        // Display game container
-        gameContainer.style.display = "block";
-        // Call function to start the game
-        startGame();
+    // Check if the username already exists in the database
+    var existingUser = databaseData.find(function(user) {
+        return user.username === username;
     });
+
+    if (existingUser) {
+        alert("Username already exists. Please choose a different username.");
+        return;
+    }
+
+    // Add the new user to the database data with initial score of 0
+    var newUser = {
+        username: username,
+        password: password,
+        score: 0
+    };
+    databaseData.push(newUser);
+
+    // Update the JSON file with the new data
+    updateDatabaseFile(databaseData);
+
+    // Here you would typically handle the sign-up process and check if it's successful
+    // For demonstration purposes, let's assume the sign-up is successful
+    console.log("Registered and signed in as:", username);
+
+    // Hide sign-up form
+    signUpForm.style.display = "none";
+    // Display game container
+    gameContainer.style.display = "block";
+    // Call function to start the game
+    startGame();
+});
+
+// Function to validate the password
+function isValidPassword(password) {
+    // Password must be at least 12 characters long and contain at least 2 special characters
+    var specialChars = /[@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+    return password.length >= 12 && password.match(specialChars) && password.match(specialChars).length >= 2;
+}
 
     // Event listener for Finish button
     finishButton.addEventListener("click", function() {
