@@ -1,108 +1,74 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
 
-#topBar {
-    background-color: #333;
-    padding: 10px;
-    text-align: center;
-    color: white;
-}
+    /* CSS styles */
+    @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
-button {
-    padding: 8px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 5px; /* Added margin to create space between buttons */
-}
+    body {
+        background: #F6F7BD;
+    }
 
-#initialForm, #registerForm, #logInForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-}
+    h1 {
+        color: #BF4D28;
+        font-size: 3em;
+        line-height: 1em;
+        margin-bottom: 15px;
+        font-family: sans-serif;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    }
 
-#buttonContainer {
-    display: flex;
-    flex-direction: row; /* Align buttons horizontally */
-    justify-content: center;
-    margin-top: 10px; /* Add margin to separate text and buttons */
-}
+    p {
+        line-height: 1em;
+    }
 
-#registerForm, #logInForm, #gameWindow {
-    display: none; /* Initially hide the registration, login, and game forms */
-}
+    div {
+        color: #BF4D28;
+        font-family: sans-serif;
+        line-height: 10px;
+        margin: 2%;
+    }
 
-form {
-    display: flex; /* Initially hide the registration form */
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-}
+    #canvas {
+        margin-left: 2%;
+        background: linear-gradient(#80BCA3, #B6D8C0);
+    }
 
-input {
-    margin-bottom: 10px;
-    padding: 8px;
-}
+    #score {
+        color: #BF4D28;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
 
-#gameWindow {
-    flex-grow: 1;
+    /* Login container styles */
+    #login-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: block;
+    }
+
+    /* Game container styles */
+    #game-container {
+        display: none; /* Initially hide the game container */
+    }
+
+    /* Form container styles */
+    .form-container {
+        display: none; /* Initially hide form containers */
+        margin-top: 20px;
+    }
+
+    /* Button styles */
+    button {
+        background-color: #BF4D28;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #registerForm,
+#logInForm {
     display: none;
-    justify-content: center;
-    align-items: center;
-    background-color: white; /* Set the background color of the entire window */
-}
-
-#gameArea {
-    position: relative;
-    width: 50vw;
-    height: 80vh;
-    overflow: hidden;
-    background-color: skyblue;
-    border: 2px solid black;
-}
-
-#square {
-    width: 50px;
-    height: 50px;
-    background-color: blue;
-    position: absolute;
-    bottom: 30px;
-    left: 0;
-    transition: bottom 0.2s, left 0.2s;
-}
-
-#platform {
-    width: 100%;
-    height: 30px;
-    background-color: green;
-    position: absolute;
-    bottom: 0;
-}
-
-#platform1, #platform2, #platform3, #platform4, #platform5, #platform6 {
-    width: 100px;
-    height: 30px;
-    background-color: green;
-    position: absolute;
-}
-
-#platform1 {
-    bottom: 50px;
-}
-
-#gameWindow:focus {
-    outline: none;
 }
