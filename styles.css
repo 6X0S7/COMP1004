@@ -1,4 +1,3 @@
-
     /* CSS styles */
     @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
@@ -59,7 +58,7 @@
     }
 
     /* Button styles */
-    button {
+    .btn {
         background-color: #BF4D28;
         color: white;
         padding: 10px 20px;
@@ -67,8 +66,3 @@
         border-radius: 5px;
         cursor: pointer;
     }
-
-    #registerForm,
-#logInForm {
-    display: none;
-}
