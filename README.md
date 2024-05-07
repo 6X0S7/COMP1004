@@ -28,3 +28,7 @@ There is a game to keep users entertained and inspired
   > Now the website can use the JSON file to check for registered users or to register users and their game score
   > Once logged in the website will automatically download a JSON file, that one stores previous data as well as the record about the newest registered user.
   > Use the most up to date file to upload the next time you visit the site, this is how I came up with my database solution. 
+
+# POSSIBLE ISSUES
+> When testing my website
+  > Some special characters are not allowed, 1 working special character example is "?"
