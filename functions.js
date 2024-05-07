@@ -1,37 +1,63 @@
 document.addEventListener("DOMContentLoaded", function() {
-    
     var loginContainer = document.getElementById("login-container");
-    var signinButton = document.getElementById("signin-button");
-    var signupButton = document.getElementById("signup-button");
+    var signInButton = document.getElementById("signin-button");
+    var signUpButton = document.getElementById("signup-button");
     var initialScreen = document.getElementById("initial-screen");
     var playGameButton = document.getElementById("play-game-btn");
     var gameContainer = document.getElementById("game-container");
     var scoreboardButton = document.getElementById("scoreboard-button");
-    
+    var usagePreferencesForm = document.getElementById("usage-preferences");
+
+    // Function to show the usage preferences form
+    function showUsagePreferences() {
+        usagePreferencesForm.style.display = "block";
+    }
+
     // Event listener for "Sign In" button
-    signinButton.addEventListener("click", function() {
-        // Your sign-in logic here
-        // For example, you can show the initial screen after successful sign-in
-        loginContainer.style.display = "none"; // Hide the login container
-        initialScreen.style.display = "block"; // Show the initial screen
+    signInButton.addEventListener("click", function() {
+        // Check if a database is connected
+        if (!databaseData) {
+            alert("Please connect a database in order to sign in.");
+        } else {
+            // Proceed to the sign-in form
+            loginContainer.style.display = "none"; // Hide the login container
+            signInForm.style.display = "block"; // Show the sign-in form
+        }
     });
 
     // Event listener for "Sign Up" button
-    signupButton.addEventListener("click", function() {
-        // Your sign-up logic here
-        // For example, you can show the initial screen after successful sign-up
-        loginContainer.style.display = "none"; // Hide the login container
-        initialScreen.style.display = "block"; // Show the initial screen
+    signUpButton.addEventListener("click", function() {
+        // Check if a database is connected
+        if (!databaseData) {
+            alert("Please connect a database in order to sign up.");
+        } else {
+            // Proceed to the sign-up form
+            loginContainer.style.display = "none"; // Hide the login container
+            signUpForm.style.display = "block"; // Show the sign-up form
+        }
     });
 
     // Event listener for "Play Game" button
     playGameButton.addEventListener("click", function() {
-        // Your logic to start the game here
-        // For example, you can show the game container
-        initialScreen.style.display = "none"; // Hide the initial screen
-        gameContainer.style.display = "block"; // Show the game container
+        // Hide the usage preferences form
+        usagePreferencesForm.style.display = "none";
+        
+        // Show the game container
+        gameContainer.style.display = "block";
+
+        // Call the function to start the game
+        startGame();
     });
-    
+
+    // Event listener for "Show New Form" button
+    var showNewFormButton = document.getElementById("show-new-form-btn");
+    var newFormContainer = document.getElementById("new-form-container");
+
+    showNewFormButton.addEventListener("click", function() {
+        console.log("Button clicked"); // Check if the event listener is triggered
+        newFormContainer.style.display = "block"; // Show the new form
+    });
+
     var scoreboardButton = document.getElementById("scoreboard-button");
     var scoreboardContainer = document.getElementById("scoreboard-container");
     var closeScoreboardButton = document.getElementById("close-scoreboard-button");
@@ -92,21 +118,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Hide game container initially
     gameContainer.style.display = "none";
 
-    // Add event listener to sign in button
-    signInButton.addEventListener("click", function() {
-        // Hide main menu
-        loginContainer.style.display = "none";
-        // Display sign in form
-        signInForm.style.display = "block";
-    });
-
-    // Add event listener to sign up button
-    signUpButton.addEventListener("click", function() {
-        // Hide main menu
-        loginContainer.style.display = "none";
-        // Display sign up form
-        signUpForm.style.display = "block";
-    });
 
     // Event listener for Connect Database button
     connectDatabaseButton.addEventListener("click", function(event) {
@@ -151,74 +162,66 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Hide sign-in form
             signInForm.style.display = "none";
-            // Display game container
-            gameContainer.style.display = "block";
-            // Call function to start the game
-            startGame();
+
+            // Call function to show the usage preferences form
+            showUsagePreferences();
+
         } else {
             alert("Invalid username or password. Please try again.");
         }
     });
 
     // Event listener for successful sign up
-signUpForm.addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form submission
+    signUpForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
 
-    var username = document.getElementById("signup-username").value;
-    var password = document.getElementById("signup-password").value;
-    var confirmPassword = document.getElementById("signup-confirm-password").value;
+        var username = document.getElementById("signup-username").value;
+        var password = document.getElementById("signup-password").value;
+        var confirmPassword = document.getElementById("signup-confirm-password").value;
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
-    }
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
 
-    // Check if the password meets the requirements
-    if (!isValidPassword(password)) {
-        alert("Password must be at least 12 characters long and contain at least 2 special characters.");
-        return;
-    }
+        // Check if the password meets the requirements
+        if (!isValidPassword(password)) {
+            alert("Password must be at least 12 characters long and contain at least 2 special characters.");
+            return;
+        }
 
-    // Check if the username already exists in the database
-    var existingUser = databaseData.find(function(user) {
-        return user.username === username;
+        // Check if the username already exists in the database
+        var existingUser = databaseData.find(function(user) {
+            return user.username === username;
+        });
+
+        if (existingUser) {
+            alert("Username already exists. Please choose a different username.");
+            return;
+        }
+
+        // Add the new user to the database data with initial score of 0
+        var newUser = {
+            username: username,
+            password: password,
+            score: 0
+        };
+        databaseData.push(newUser);
+
+        // Update the JSON file with the new data
+        updateDatabaseFile(databaseData);
+
+        // Here you would typically handle the sign-up process and check if it's successful
+        // For demonstration purposes, let's assume the sign-up is successful
+        console.log("Registered and signed in as:", username);
+
+        // Hide sign-up form
+        signUpForm.style.display = "none";
+
+        // Call function to show the usage preferences form
+        showUsagePreferences();
     });
-
-    if (existingUser) {
-        alert("Username already exists. Please choose a different username.");
-        return;
-    }
-
-    // Add the new user to the database data with initial score of 0
-    var newUser = {
-        username: username,
-        password: password,
-        score: 0
-    };
-    databaseData.push(newUser);
-
-    // Update the JSON file with the new data
-    updateDatabaseFile(databaseData);
-
-    // Here you would typically handle the sign-up process and check if it's successful
-    // For demonstration purposes, let's assume the sign-up is successful
-    console.log("Registered and signed in as:", username);
-
-    // Hide sign-up form
-    signUpForm.style.display = "none";
-    // Display game container
-    gameContainer.style.display = "block";
-    // Call function to start the game
-    startGame();
-});
-
-// Function to validate the password
-function isValidPassword(password) {
-    // Password must be at least 12 characters long and contain at least 2 special characters
-    var specialChars = /[@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
-    return password.length >= 12 && password.match(specialChars) && password.match(specialChars).length >= 2;
-}
 
     // Event listener for Finish button
     finishButton.addEventListener("click", function() {
@@ -258,6 +261,13 @@ function isValidPassword(password) {
         // Download the updated JSON file
         link.download = "database.json";
         link.click();
+    }
+
+    // Function to validate the password
+    function isValidPassword(password) {
+        // Password must be at least 12 characters long and contain at least 2 special characters
+        var specialChars = /[@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+        return password.length >= 12 && password.match(specialChars) && password.match(specialChars).length >= 2;
     }
 
     // Function to validate the JSON data format
