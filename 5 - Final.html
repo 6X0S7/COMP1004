@@ -38,12 +38,19 @@
     </form>
 </div>
 
-<!-- Initial Screen -->
-<div id="initial-screen" style="display: none;">
-    <h2>Welcome!</h2>
-    <button class="big-btn" id="how-to-develop-btn">How to Develop Software</button>
-    <button class="big-btn" id="github-repo-btn">GitHub Repo for the Game</button>
-    <button class="big-btn" id="play-game-btn">Play Game</button>
+<!-- Usage Preferences Form -->
+<div class="form-container" id="usage-preferences" style="display: none;">
+    <h2>Usage Preferences</h2>
+    <button class="btn" id="how-to-develop-btn">How to Develop Software</button>
+    <button class="btn" id="play-game-btn">Play Game</button>
+    <a href="https://example.com/game-source-code" class="btn" target="_blank">Game Source Code</a>
+    <button class="btn" id="show-new-form-btn">Show New Form</button> <!-- New button added -->
+</div>
+
+<!-- New Form -->
+<div id="new-form-container" style="display: none;">
+    <p>Software Development Tutorial</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/Fi3_BjVzpqk?si=vnx5ju5V4ib_4tlC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
 <!-- Game Container -->
@@ -78,22 +85,7 @@
 
 <script src="game.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var howToDevelopButton = document.getElementById("how-to-develop-btn");
-        var embeddedContentContainer = document.getElementById("embedded-content-container");
 
-        // Event listener for "How to Develop Software" button
-        howToDevelopButton.addEventListener("click", function() {
-            // Toggle the visibility of the embedded content container
-            if (embeddedContentContainer.style.display === "none") {
-                embeddedContentContainer.style.display = "block";
-            } else {
-                embeddedContentContainer.style.display = "none";
-            }
-        });
-    });
-</script>
 
 </body>
 </html>
